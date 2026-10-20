@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gestion de stock</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header class="top">
+      <div>
+        <h1>Gestion de stock</h1>
+        <p class="sub" id="resume">Chargement…</p>
+      </div>
+      <div class="actions">
+        <input type="search" id="recherche" placeholder="Rechercher un produit" aria-label="Rechercher un produit">
+        <button class="btn" id="btn-pdf" type="button">Télécharger le PDF</button>
+        <button class="btn btn-primary" id="btn-ajouter" type="button">Ajouter un produit</button>
+      </div>
+    </header>
+
+    <div class="table-wrap">
+      <table id="table-produits">
+        <thead>
+          <tr>
+            <th>Produit</th>
+            <th class="num">Unités / lot</th>
+            <th class="num">Quantité entrée</th>
+            <th class="num">Quantité sortie</th>
+            <th class="num">Reste</th>
+            <th class="num">Prix d'achat</th>
+            <th class="num">Prix unitaire</th>
+            <th class="num">Bénéfice potentiel</th>
+            <th class="col-actions" data-no-pdf>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="corps"></tbody>
+      </table>
+      <p class="vide" id="vide" hidden>Aucun produit. Cliquez sur « Ajouter un produit » pour commencer.</p>
+    </div>
+  </main>
+
+  <dialog id="modal">
+    <form id="form" method="dialog" novalidate>
+      <h2 id="modal-titre">Ajouter un produit</h2>
+      <input type="hidden" id="f-id">
+      <label>Produit
+        <input type="text" id="f-produit" maxlength="150" required>
+      </label>
+      <label>Unités par lot
+        <input type="number" id="f-lot" min="1" step="1" value="1" required>
+        <span class="aide">1 = vendu à la pièce. Casier de 12 bouteilles : 12. Pack de 25 bonbons : 25.</span>
+      </label>
+      <div class="grille">
+        <label>Quantité entrée (en unités)
+          <input type="number" id="f-entree" min="0" step="1" value="0" required>
+        </label>
+        <label>Quantité sortie
+          <input type="number" id="f-sortie" min="0" step="1" value="0" required>
+        </label>
+        <label>Prix d'achat (d'un lot entier)
+          <input type="number" id="f-achat" min="0" step="0.01" value="0" required>
+        </label>
+        <label>Prix unitaire (de vente, par unité)
+          <input type="number" id="f-unitaire" min="0" step="0.01" value="0" required>
+        </label>
+      </div>
+      <p class="reste-info">Reste : <strong id="f-reste">0</strong> · Coût par unité : <strong id="f-cout">0</strong> · Bénéfice par unité : <strong id="f-benef">0</strong></p>
+      <p class="erreur" id="f-erreur" role="alert" hidden></p>
+      <div class="modal-actions">
+        <button type="button" class="btn" id="btn-annuler">Annuler</button>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
